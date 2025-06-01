@@ -5,6 +5,9 @@ import Dashboard from './pages/Dashboard';
 import Logout from './pages/Logout';
 import ProtectedRoute from './components/ProtectedRoute';
 import AddPatient from './pages/AddPatients';
+import ViewPatients from './pages/ShowPatients';
+import AddLabTest from './pages/AddNewTest';
+import MainLayout from './layouts/MainLayouts';
 
 function App() {
   return (
@@ -15,13 +18,43 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <MainLayout>
+                <Dashboard />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/add-patient" element={ <ProtectedRoute> <AddPatient /> </ProtectedRoute> }
-/>
+        <Route
+          path="/add-patient"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <AddPatient />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/patients"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <ViewPatients />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/add-test"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <AddLabTest />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );
