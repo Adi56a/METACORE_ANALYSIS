@@ -1,16 +1,13 @@
-from app import db
+from app.models.admin_user import db
 from datetime import datetime
+import uuid
 
-class Test(db.Model):
-    __tablename__ = 'tests'
+class LabTest(db.Model):
+    __tablename__ = 'lab_tests'
+
     id = db.Column(db.Integer, primary_key=True)
+    test_id = db.Column(db.String(50), unique=True, nullable=False, default=lambda: f"TEST-{uuid.uuid4().hex[:8].upper()}")
     name = db.Column(db.String(100), nullable=False)
-    category = db.Column(db.String(50))
     price = db.Column(db.Numeric(10, 2), nullable=False)
-    sample_required = db.Column(db.String(100))
-    normal_range = db.Column(db.String(100))
-    unit = db.Column(db.String(50))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    patient_tests = db.relationship('PatientTest', backref='test', cascade='all, delete')
-    invoice_tests = db.relationship('InvoiceTest', backref='test', cascade='all, delete')
