@@ -1,4 +1,4 @@
-from app.models.admin_user import db  # ✅ Shared db instance
+from app.models.admin_user import db  # Shared db instance
 from datetime import datetime
 
 class Patient(db.Model):
@@ -15,3 +15,11 @@ class Patient(db.Model):
     referred_by = db.Column(db.String(100), nullable=False)
     notes = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relationship to PatientLabTest association model for test history
+    lab_tests_assoc = db.relationship(
+        'PatientLabTest',
+        back_populates='patient',
+        cascade='all, delete-orphan',
+        lazy='dynamic'
+    )

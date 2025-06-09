@@ -3,7 +3,8 @@ from flask_cors import CORS
 from config import Config
 from app.models.admin_user import db, AdminUser
 from app.models.patient import Patient
-from app.models.tests import LabTest
+from app.models.lab_tests import LabTest
+
 from datetime import datetime
 
 
@@ -151,6 +152,28 @@ def view_tests():
     except Exception as e:
         print(f"❌ Error fetching lab tests: {e}")
         return jsonify({"success": False, "message": str(e)}), 500
+    
+@app.route("/api/patient/<int:patient_id>", methods=["GET"])
+def get_patient_detail(patient_id):
+    patient = Patient.query.get_or_404(patient_id)
+    return jsonify({
+        "success": True,
+        "patient": {
+            "id": patient.id,
+            "name": patient.name,
+            "age": patient.age,
+            "gender": patient.gender,
+            "mobile": patient.mobile,
+            "address": patient.address,
+            "email": patient.email,
+            "visitDate": patient.visit_date.strftime("%Y-%m-%d"),
+            "referredBy": patient.referred_by,
+            "notes": patient.notes,
+            "createdAt": patient.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        }
+    })
+
+
 
 
 if __name__ == "__main__":

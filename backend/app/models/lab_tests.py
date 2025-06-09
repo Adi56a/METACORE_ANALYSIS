@@ -11,3 +11,5 @@ class LabTest(db.Model):
     price = db.Column(db.Numeric(10, 2), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Optional: if you want backref to patient tests
+    patient_tests_assoc = db.relationship('PatientLabTest', back_populates='lab_test', lazy='dynamic')
